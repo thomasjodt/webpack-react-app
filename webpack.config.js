@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const htmlRules = { 
   test: /\.html$/, 
@@ -8,7 +9,7 @@ const htmlRules = {
 }
 const styleRules = {
   test: /\.(sa|sc|c)ss$/,
-  use: ['style-loader', 'css-loader']
+  use: [MiniCssExtractPlugin.loader, 'css-loader']
 }
 const jsRules = {
   test: /\.(m?js|jsx)$/,
@@ -18,6 +19,7 @@ const jsRules = {
 }
 const imageRules = {
   test: /\.(jpe?g|png|gif|svg)$/,
+  exclude: /favicon\.png/,
   type: 'asset/resource'
 }
 const fontRules = {
@@ -39,17 +41,17 @@ const alias = {
   '@components': path.resolve(__dirname, './src/components'),
 }
 
-module.exports = (argv) => {
-  const {mode} = argv
+module.exports = (arg) => {
+  const {mode} = arg
   const isProduction = mode === 'production'
   return {
-    entry: './src/index.js',
+    entry: './src/main.js',
     output: {
       filename: isProduction
-      ? '[name].[contenthash].js' 
+      ? 'main.[contenthash].js' 
       : 'main.js',
-      path: path.resolve(__dirname, 'dist'),
-      assetModuleFilename: 'images/[hash][ext][query]',
+      path: path.resolve(__dirname, 'build'),
+      assetModuleFilename: 'images/[name][hash][ext][query]',
       clean: true
     },
     module: {rules},
@@ -65,15 +67,17 @@ module.exports = (argv) => {
         favicon: './public/favicon.png'
       }),
       new MiniCssExtractPlugin({
-        filename: 'assets/[name].[contenthash].css'
-      })
+        filename: 'styles/[name].[contenthash].css'
+      }),
     ],
     devServer: {
-      static: { directory: path.join(__dirname, 'dist') },
+      static: { directory: path.join(__dirname, 'build') },
       open: true,
       port: 3000,
       compress: true
     },
-    devtool: 'source-map'
+    optimization: {
+      minimizer: [new CssMinimizerPlugin()]
+    }
   }
 }
