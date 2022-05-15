@@ -31,18 +31,9 @@ const fontRules = {
 }
 
 const rules = [htmlRules, styleRules, jsRules, imageRules, fontRules]
-const alias = {
-  '@public':path.resolve(__dirname, './public'),
-  '@hooks': path.resolve(__dirname, './src/hooks'),
-  '@pages': path.resolve(__dirname, './src/pages'),
-  '@styles': path.resolve(__dirname, './src/styles'),
-  '@icons': path.resolve(__dirname, './src/assets/icons'),
-  '@images': path.resolve(__dirname, './src/assets/images'),
-  '@components': path.resolve(__dirname, './src/components'),
-}
 
-module.exports = (arg) => {
-  const {mode} = arg
+module.exports = (env, argv) => {
+  const {mode} = argv
   const isProduction = mode === 'production'
   return {
     entry: './src/main.js',
@@ -55,19 +46,15 @@ module.exports = (arg) => {
       clean: true
     },
     module: {rules},
-    resolve: {
-      extensions: ['.js', '.jsx', '.mjs'],
-      alias
-    },
+    resolve: { extensions: ['.js', '.jsx', '.mjs'] },
     plugins: [
       new HtmlWebpackPlugin({
-        inject: true,
         filename: 'index.html',
         template: './public/index.html',
         favicon: './public/favicon.png'
       }),
       new MiniCssExtractPlugin({
-        filename: 'styles/[name].[contenthash].css'
+        filename: 'styles/[name].css'
       }),
     ],
     devServer: {

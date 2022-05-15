@@ -1,13 +1,14 @@
-import '@styles/App.css'
+import './styles/App.css'
 
 export function App() {
-  return (
-    <div className='App'>
+  return (    // You can remove from this line
+    <div className='App'> 
       <h1>Welcome to WebPack React App</h1>
       <img
         className='react-logo' 
-        src={require('@public/logo.png')} 
+        src={require('../public/logo.png')} 
         alt="React Logo" />
-    </div>
+      <p>Edit <b>App.jsx</b> to add changes.</p>
+    </div>    // To this line.
   )
 }
