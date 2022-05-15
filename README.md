@@ -15,5 +15,8 @@ function react-app() {
   echo "Type $(tput setaf 6)npm run build $(tput sgr 0)to build your app."
 }
 ```
+To use this command you need to reset your terminal and type `react-app <app-name>`
+
+To add you information after using this command, type `npm init`
 
 and enjoy it. :)
