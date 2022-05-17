@@ -29,13 +29,8 @@ const fontRules = {
       filename: 'assets/fonts/[name].[hash][ext][query]',
   }
 }
-const devCssRules = {
-  test: /\.css/i,
-  use: ['style-loader', 'css-loader']
-}
 
 const rules = [htmlRules, styleRules, jsRules, imageRules, fontRules]
-const Devrules = [htmlRules, devCssRules, jsRules, imageRules, fontRules]
 
 module.exports = (env, argv) => {
   const { mode } = argv
@@ -49,6 +44,7 @@ module.exports = (env, argv) => {
       output: {
         filename: 'main.[contenthash].js',
         path: path.resolve(__dirname, 'build'),
+        publicPath: '/',
         assetModuleFilename: 'images/[name][hash][ext][query]',
         clean: true
       },
@@ -81,23 +77,29 @@ module.exports = (env, argv) => {
       output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'build'),
+        publicPath: '/',
         assetModuleFilename: 'images/[name][ext]',
         clean: true
       },
-      module: {rules: Devrules},
+      module: {rules},
       resolve: { extensions: ['.js', '.jsx', '.mjs'] },
       plugins: [
         new HtmlWebpackPlugin({
           filename: 'index.html',
           template: './public/index.html',
           favicon: './public/favicon.png'
+        }),
+        new MiniCssExtractPlugin({
+          filename: 'styles/[name].css'
         })
       ],
       devServer: {
         static: { directory: path.join(__dirname, 'build') },
         open: true,
         port: 3000,
-        compress: true
+        compress: true,
+        historyApiFallback: true,
+        client: { overlay: true }
       },
       devtool: 'source-map'
     }
