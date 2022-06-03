@@ -1,8 +1,16 @@
-# Webpack React App
-This is my own setup for React Apps.
-Contains the initial state similar to that of npx create-react-app but with my configurations.
+# React Application Template (Webpack)
+This is my own setup for React applications.
+It contains the initial setup with my own configurations for my projects.
 
-If you want to use this setup for your applications you can use the following function to your .bashrc/.zshrc or other files:
+The modules that contain this configuration are the following:
+- HTML Webpack Plugin
+- Mini CSS Extract Plugin
+- CSS Minimizer Plugin
+- Babel
+- React
+- React DOM
+
+If you are interested in this template and you want to use this setup for your applications you can add the following function to your `.bashrc` /`.zshrc` or other files:
 
 ```shell
 function react-app() {
